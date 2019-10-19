@@ -12,6 +12,7 @@ const defaultState = {
 
 function App() {
   const [state, setState] = React.useState(defaultState);
+
   useEffect(() => {
     return () => {};
   });
