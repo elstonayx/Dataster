@@ -1,13 +1,13 @@
 import React from "react";
 
 import { DeviceMap } from "./components/DeviceMap/DeviceMap.jsx";
-import { RightNavDrawer } from "./components/RightNavDrawer/RightNavDrawer.jsx";
+import { NavDrawer } from "./components/NavDrawer/NavDrawer.jsx";
 import { GlobalProvider } from "./GlobalContext.jsx";
 
 import "./App.css";
 
 const defaultState = {
-  position: [0, 0]
+  position: [27.700769, 85.30014]
 };
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
     <div>
       <GlobalProvider value={{ state, setState }}>
         <DeviceMap position={state.position} />
-        <RightNavDrawer />
+        <NavDrawer />
       </GlobalProvider>
     </div>
   );
