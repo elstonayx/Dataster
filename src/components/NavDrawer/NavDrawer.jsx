@@ -6,19 +6,21 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import GlobalContext from "../../GlobalContext.jsx";
+import { textAlign } from "@material-ui/system";
 
 const drawerWidth = 300;
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: drawerWidth
+    width: drawerWidth,
+    textAlign: "center"
   },
   drawerPaper: {
     width: drawerWidth
   }
 }));
 
-const InputButtons = [
+const RiskAreas = [
   {
     title: "Singapore",
     position: [1.2905, 103.852]
@@ -41,9 +43,9 @@ export const NavDrawer = () => {
         paper: classes.drawerPaper
       }}
     >
-      <Divider />
+      <h2>Areas at Risk</h2>
       <List>
-        {InputButtons.map((item, index) => {
+        {RiskAreas.map((item, index) => {
           return (
             <ListItem
               button

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import request from "request-promise-native";
 import { Map, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
 import PropTypes from "prop-types";
+import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
 
 const { BaseLayer } = LayersControl;
 
@@ -35,6 +36,7 @@ export const DeviceMap = props => {
           </BaseLayer>
         </LayersControl>
         {geoJSONData && <GeoJSON data={geoJSONData} color="red" />}
+        <RiskAreaMarker />
       </Map>
     </div>
   );
