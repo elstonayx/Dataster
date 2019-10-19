@@ -1,12 +1,24 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+
 import { DeviceMap } from "./components/DeviceMap/DeviceMap.jsx";
+import { NavDrawer } from "./components/NavDrawer/NavDrawer.jsx";
+import { GlobalProvider } from "./GlobalContext.jsx";
+
+import "./App.css";
+
+const defaultState = {
+  position: [27.700769, 85.30014]
+};
 
 function App() {
+  const [state, setState] = React.useState(defaultState);
+
   return (
     <div>
-      <DeviceMap />
+      <GlobalProvider value={{ state, setState }}>
+        <DeviceMap position={state.position} />
+        <NavDrawer />
+      </GlobalProvider>
     </div>
   );
 }
