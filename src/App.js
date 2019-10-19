@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { DeviceMap } from "./components/DeviceMap/DeviceMap.jsx";
 import { NavDrawer } from "./components/NavDrawer/NavDrawer.jsx";
@@ -12,7 +12,9 @@ const defaultState = {
 
 function App() {
   const [state, setState] = React.useState(defaultState);
-
+  useEffect(() => {
+    return () => {};
+  });
   return (
     <div>
       <GlobalProvider value={{ state, setState }}>
