@@ -6,6 +6,11 @@ import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
 
 const { BaseLayer } = LayersControl;
 
+const data = {
+  label: ["red", "yellow"],
+  values: [100, 200]
+};
+
 export const DeviceMap = props => {
   const [geoJSONData, setGeoJSONData] = useState();
 
@@ -36,7 +41,11 @@ export const DeviceMap = props => {
           </BaseLayer>
         </LayersControl>
         {geoJSONData && <GeoJSON data={geoJSONData} color="red" />}
-        <RiskAreaMarker />
+        <RiskAreaMarker
+          center={[27.700769, 85.30014]}
+          radius={1000}
+          data={data}
+        />
       </Map>
     </div>
   );
