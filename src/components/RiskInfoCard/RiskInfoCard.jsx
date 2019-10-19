@@ -1,5 +1,4 @@
 import React from "react";
-import propTypes from "prop-types";
 import { Card } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 
@@ -37,4 +36,11 @@ export const RiskInfoCard = ({ data }) => {
       </div>
     </Card>
   );
+};
+
+RiskInfoCard.defaultProps = {
+  data: {
+    label: ["Example 1", "Example 2"],
+    values: [100, 100]
+  }
 };
