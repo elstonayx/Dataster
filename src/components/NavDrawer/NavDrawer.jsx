@@ -29,14 +29,14 @@ const InputButtons = [
   }
 ];
 
-export const RightNavDrawer = () => {
+export const NavDrawer = () => {
   const classes = useStyles();
   const globalState = React.useContext(GlobalContext);
   return (
     <Drawer
       className={classes.drawer}
       variant="permanent"
-      anchor="right"
+      anchor="left"
       classes={{
         paper: classes.drawerPaper
       }}
