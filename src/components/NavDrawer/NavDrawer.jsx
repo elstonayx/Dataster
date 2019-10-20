@@ -8,6 +8,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import request from "request-promise-native";
 
 import { SimpleModal } from "../Modal/Modal.jsx";
+import { Container } from "@material-ui/core";
 
 const drawerWidth = 300;
 
@@ -48,17 +49,28 @@ const useStyles = makeStyles(theme => ({
 
 export const NavDrawer = () => {
   const classes = useStyles();
-  const [districtJSONData, setDistrictJSONData] = useState([]);
+  const [newsData, setNewsData] = useState([]);
+  const [districtData, setDistrictData] = useState([]);
 
   useEffect(() => {
     request({
       method: "GET",
       uri: "https://dataster-c6fa8.firebaseio.com/Country/Messages.json"
     }).then(data => {
-      console.log(data);
       const parsedData = JSON.parse(data);
-      setDistrictJSONData(parsedData);
+      setNewsData(parsedData);
     }, console.log);
+
+    request({
+      method: "GET",
+      uri: "https://dataster-c6fa8.firebaseio.com/Country/Districts.json"
+    }).then(data => {
+      const parsedData = JSON.parse(data);
+      const items = Object.keys(parsedData).map(key => {
+        return [parsedData[key]["Vulerability Score"], key, parsedData[key]];
+      });
+      setDistrictData(items.sort((a, b) => b[0] - a[0]));
+    });
 
     return () => {};
   }, []);
@@ -73,13 +85,34 @@ export const NavDrawer = () => {
       }}
     >
       <List>
-        <h3>Messages</h3>
-
+        <Container>
+          <h1>Dataster</h1>
+        </Container>
         <Divider />
-        {districtJSONData.map(item => {
+        <h3>At Risk Areas</h3>
+        <Divider />
+        {districtData.map(item => {
+          console.log(item);
           return (
             <div>
+              <ListItem>
+                <ListItemText
+                  primary={item[1]}
+                  secondary={`Vulnerability Score: ${Number(item[0]).toFixed(
+                    4
+                  )}`}
+                />
+              </ListItem>
+              <Divider />
+            </div>
+          );
+        })}
 
+        <h3>Updates</h3>
+        <Divider />
+        {newsData.map(item => {
+          return (
+            <div>
               <ListItem button>
                 <SimpleModal
                   type={item.Type}
