@@ -117,7 +117,7 @@ export const NavDrawer = () => {
         {districtJSONData.map((item) => {
           return (
             <div>
-            <ListItem button >
+            <ListItem>
 
               <SimpleModal type={item.Type} priority={item.Priority} location={item.Location} description={item.Description} latitude={item.Latitude} longitude ={item.Longitude} />
               &nbsp;
