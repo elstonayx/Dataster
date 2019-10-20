@@ -11,7 +11,8 @@ const defaultState = {
   position: [27.700769, 85.30014],
   isRiskAreaShown: true,
   isLandslideAreaShown: true,
-  isWeatherDataShown: true
+  isWeatherDataShown: true,
+  isMissingPeopleShown: true
 };
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
 
   const handleWeatherAreaClick = () => {
     setState({ ...state, isWeatherDataShown: !state.isWeatherDataShown });
+  };
+
+  const handleMissingPeopleClick = () => {
+    setState({ ...state, isMissingPeopleShown: !state.isMissingPeopleShown });
   };
 
   useEffect(() => {
@@ -53,6 +58,9 @@ function App() {
               </Button>
               <Button onClick={handleWeatherAreaClick}>
                 Toggle Weather Area
+              </Button>
+              <Button onClick={handleMissingPeopleClick}>
+                Toggle Missing People Display
               </Button>
             </ButtonGroup>
           </Card>

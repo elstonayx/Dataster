@@ -9,8 +9,6 @@ import { MapLayers } from "./MapLayers/MapLayers";
 import GlobalContext from "../../GlobalContext";
 import { GeoJSONDataOverlay } from "./Overlays/GeoDataOverlay/GeoDataOverlay";
 
-  
-const { BaseLayer } = LayersControl;
 const getColorRangeBasedOnValue = value => {
   const red = parseInt(255 * value).toString(16);
   const green = parseInt(255 * (1 - value)).toString(16);
@@ -22,7 +20,7 @@ export const DeviceMap = props => {
   const [missingPeopleData, setMissingPeopleData] = useState({});
 
   const GlobalState = useContext(GlobalContext).state;
-  
+
   useEffect(() => {
     request({
       method: "GET",
@@ -65,45 +63,7 @@ export const DeviceMap = props => {
               Elderly: districtData["%elderly"] * districtData.population
             };
 
-          return (
-            <RiskAreaMarker
-              center={[districtData.Latitude, districtData.Longitude]}
-              radius={districtData["area km^2"] * 20}
-              color={getColorRangeBasedOnValue(
-                districtData["Vulerability Score"]
-              )}
-              key={index}
-              data={{
-                label: Object.keys(data),
-                values: Object.values(data)
-              }}
-            />
-          );
-        })}
-        {Object.keys(missingPeopleData).map((personName, index) => {
-          const personData = missingPeopleData[personName];
-
-          const data = {
-            Name: personName,
-            Age: personData["Age"],
-            Disabled: personData["Disabled"],
-            Gender: personData["Gender"]
-          };
-
-          console.log(data);
-
-          return (
-            <MissingPeople
-              center={[
-                personData[`Last Seen`].Latitude,
-                personData[`Last Seen`].Longitude
-              ]}
-              key={index}
-              data={data}
-            />
-          );
-        })}
-           return (
+            return (
               <RiskAreaMarker
                 center={[districtData.Latitude, districtData.Longitude]}
                 radius={districtData["area km^2"] * 20}
@@ -111,18 +71,38 @@ export const DeviceMap = props => {
                   districtData["Vulerability Score"]
                 )}
                 key={index}
-                populationData={{
+                data={{
                   label: Object.keys(data),
                   values: Object.values(data)
                 }}
-                genderData={{
-                  label: ["Male", "Female"],
-                  values: [districtData["%male"], districtData["%female"]]
-                }}
-                vulnerabilityScore={districtData["Vulerability Score"]}
               />
             );
           })}
+        {GlobalState.isMissingPeopleShown &&
+          Object.keys(missingPeopleData).map((personName, index) => {
+            const personData = missingPeopleData[personName];
+
+            const data = {
+              Name: personName,
+              Age: personData["Age"],
+              Disabled: personData["Disabled"],
+              Gender: personData["Gender"]
+            };
+
+            console.log(data);
+
+            return (
+              <MissingPeople
+                center={[
+                  personData[`Last Seen`].Latitude,
+                  personData[`Last Seen`].Longitude
+                ]}
+                key={index}
+                data={data}
+              />
+            );
+          })}
+        })}
       </Map>
     </div>
   );
