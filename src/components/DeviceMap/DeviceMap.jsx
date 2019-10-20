@@ -76,6 +76,11 @@ export const DeviceMap = props => {
                   label: Object.keys(data),
                   values: Object.values(data)
                 }}
+                genderData={{
+                  label: ["Male", "Female"],
+                  values: [districtData["%male"], districtData["%female"]]
+                }}
+                vulnerabilityScore={districtData["Vulerability Score"]}
               />
             );
           })}
