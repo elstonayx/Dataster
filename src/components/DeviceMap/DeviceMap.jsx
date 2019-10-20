@@ -81,6 +81,7 @@ export const DeviceMap = props => {
                   values: [districtData["%male"], districtData["%female"]]
                 }}
                 vulnerabilityScore={districtData["Vulerability Score"]}
+                risks={districtData["risks"]}
               />
             );
           })}

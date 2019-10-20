@@ -25,7 +25,8 @@ export const RiskInfoCard = ({
   locationName,
   populationData,
   genderData,
-  vulnerabilityScore
+  vulnerabilityScore,
+  risks
 }) => {
   return (
     <Card>
@@ -59,6 +60,8 @@ export const RiskInfoCard = ({
             ]
           }}
         />
+        <h3>Potential risks:</h3>
+        <h4> {risks} </h4>
       </div>
     </Card>
   );
