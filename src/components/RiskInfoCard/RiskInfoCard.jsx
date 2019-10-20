@@ -2,33 +2,57 @@ import React from "react";
 import { Card } from "@material-ui/core";
 import { Pie } from "react-chartjs-2";
 
-export const RiskInfoCard = ({ data }) => {
+const pieColorStyles = {
+  backgroundColor: [
+    "#F7464A",
+    "#46BFBD",
+    "#FDB45C",
+    "#949FB1",
+    "#4D5360",
+    "#AC64AD"
+  ],
+  hoverBackgroundColor: [
+    "#FF5A5E",
+    "#5AD3D1",
+    "#FFC870",
+    "#A8B3C5",
+    "#616774",
+    "#DA92DB"
+  ]
+};
+
+export const RiskInfoCard = ({
+  populationData,
+  genderData,
+  vulnerabilityScore
+}) => {
   return (
     <Card>
-      <div style={{ width: "300px", textAlign: "center" }}>
+      <div
+        style={{ width: "300px", textAlign: "center", paddingBottom: "20px" }}
+      >
+        <h3>Vulnerability Score</h3>
+        <h1>{Number(vulnerabilityScore * 100).toFixed(2)}%</h1>
         <h3>Population Data</h3>
         <Pie
           data={{
-            labels: data.label,
+            labels: populationData.label,
             datasets: [
               {
-                data: data.values,
-                backgroundColor: [
-                  "#F7464A",
-                  "#46BFBD",
-                  "#FDB45C",
-                  "#949FB1",
-                  "#4D5360",
-                  "#AC64AD"
-                ],
-                hoverBackgroundColor: [
-                  "#FF5A5E",
-                  "#5AD3D1",
-                  "#FFC870",
-                  "#A8B3C5",
-                  "#616774",
-                  "#DA92DB"
-                ]
+                data: populationData.values,
+                ...pieColorStyles
+              }
+            ]
+          }}
+        />
+        <h3>Gender Ratio</h3>
+        <Pie
+          data={{
+            labels: genderData.label,
+            datasets: [
+              {
+                data: genderData.values,
+                ...pieColorStyles
               }
             ]
           }}
@@ -39,7 +63,11 @@ export const RiskInfoCard = ({ data }) => {
 };
 
 RiskInfoCard.defaultProps = {
-  data: {
+  populationData: {
+    label: ["Example 1", "Example 2"],
+    values: [100, 100]
+  },
+  genderData: {
     label: ["Example 1", "Example 2"],
     values: [100, 100]
   }

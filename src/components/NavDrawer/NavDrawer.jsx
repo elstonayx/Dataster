@@ -70,21 +70,19 @@ export const NavDrawer = () => {
   const [districtJSONData, setDistrictJSONData] = useState([]);
 
 
-
   useEffect(() => {
     request({
       method: "GET",
-      uri:
-        "https://dataster-c6fa8.firebaseio.com/Country/Messages.json"
+      uri: "https://dataster-c6fa8.firebaseio.com/Country/Messages.json"
     }).then(data => {
-      console.log(data)
+      console.log(data);
       const parsedData = JSON.parse(data);
       setDistrictJSONData(parsedData);
     }, console.log);
-    return () => { };
-
-  });
-
+    
+    return () => {};
+  }, []);
+        
   return (
     <Drawer
       className={classes.drawer}
@@ -114,6 +112,7 @@ export const NavDrawer = () => {
 
       <List>
         <h3>Updates</h3>
+
         <Divider/>
         {districtJSONData.map((item) => {
           return (
@@ -123,6 +122,7 @@ export const NavDrawer = () => {
               <SimpleModal type={item.Type} priority={item.Priority} location={item.Location} description={item.Description} latitude={item.Latitude} longitude ={item.Longitude} />
               &nbsp;
               <ListItemText primary={item.Priority} secondary={item.Location} />
+
             </ListItem>
             <Divider/>
             </div>
