@@ -4,6 +4,7 @@ import { Map } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
+import { MissingPeople } from "../MissingPeople/MissingPeople";
 import { MapLayers } from "./MapLayers/MapLayers";
 import GlobalContext from "../../GlobalContext";
 import { GeoJSONDataOverlay } from "./Overlays/GeoDataOverlay/GeoDataOverlay";
@@ -16,6 +17,8 @@ const getColorRangeBasedOnValue = value => {
 
 export const DeviceMap = props => {
   const [districtPopulationData, setDistrictPopulationData] = useState({});
+  const [missingPeopleData, setMissingPeopleData] = useState({});
+
   const GlobalState = useContext(GlobalContext).state;
 
   useEffect(() => {
@@ -24,7 +27,9 @@ export const DeviceMap = props => {
       uri: "https://dataster-c6fa8.firebaseio.com/Country.json"
     }).then(data => {
       const parsedData = JSON.parse(data);
+      console.log(parsedData);
       setDistrictPopulationData(parsedData.Districts);
+      setMissingPeopleData(parsedData.MissingPeople);
     });
 
     return () => {};
@@ -66,18 +71,38 @@ export const DeviceMap = props => {
                   districtData["Vulerability Score"]
                 )}
                 key={index}
-                populationData={{
+                data={{
                   label: Object.keys(data),
                   values: Object.values(data)
                 }}
-                genderData={{
-                  label: ["Male", "Female"],
-                  values: [districtData["%male"], districtData["%female"]]
-                }}
-                vulnerabilityScore={districtData["Vulerability Score"]}
               />
             );
           })}
+        {GlobalState.isMissingPeopleShown &&
+          Object.keys(missingPeopleData).map((personName, index) => {
+            const personData = missingPeopleData[personName];
+
+            const data = {
+              Name: personName,
+              Age: personData["Age"],
+              Disabled: personData["Disabled"],
+              Gender: personData["Gender"]
+            };
+
+            console.log(data);
+
+            return (
+              <MissingPeople
+                center={[
+                  personData[`Last Seen`].Latitude,
+                  personData[`Last Seen`].Longitude
+                ]}
+                key={index}
+                data={data}
+              />
+            );
+          })}
+        })}
       </Map>
     </div>
   );
