@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import request from "request-promise-native";
-import { Map, GeoJSON } from "react-leaflet";
+import { Map } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
@@ -66,10 +66,15 @@ export const DeviceMap = props => {
                   districtData["Vulerability Score"]
                 )}
                 key={index}
-                data={{
+                populationData={{
                   label: Object.keys(data),
                   values: Object.values(data)
                 }}
+                genderData={{
+                  label: ["Male", "Female"],
+                  values: [districtData["%male"], districtData["%female"]]
+                }}
+                vulnerabilityScore={districtData["Vulerability Score"]}
               />
             );
           })}
