@@ -10,7 +10,8 @@ import { Container, ButtonGroup, Button, Card } from "@material-ui/core";
 const defaultState = {
   position: [27.700769, 85.30014],
   isRiskAreaShown: true,
-  isLandslideAreaShown: true
+  isLandslideAreaShown: true,
+  isWeatherDataShown: true
 };
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
 
   const handleLandslideAreaClick = () => {
     setState({ ...state, isLandslideAreaShown: !state.isLandslideAreaShown });
+  };
+
+  const handleWeatherAreaClick = () => {
+    setState({ ...state, isWeatherDataShown: !state.isWeatherDataShown });
   };
 
   useEffect(() => {
@@ -45,6 +50,9 @@ function App() {
               <Button onClick={handleRiskClick}>Toggle Risk Area</Button>
               <Button onClick={handleLandslideAreaClick}>
                 Toggle Landslide Area
+              </Button>
+              <Button onClick={handleWeatherAreaClick}>
+                Toggle Weather Area
               </Button>
             </ButtonGroup>
           </Card>

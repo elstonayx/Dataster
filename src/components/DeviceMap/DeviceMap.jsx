@@ -4,8 +4,9 @@ import { Map, GeoJSON } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
-import { MapLayers } from "../MapLayers/MapLayers";
+import { MapLayers } from "./MapLayers/MapLayers";
 import GlobalContext from "../../GlobalContext";
+import { GeoJSONDataOverlay } from "./Overlays/GeoDataOverlay/GeoDataOverlay";
 
 const getColorRangeBasedOnValue = value => {
   const red = parseInt(255 * value).toString(16);
@@ -14,19 +15,10 @@ const getColorRangeBasedOnValue = value => {
 };
 
 export const DeviceMap = props => {
-  const [geoJSONData, setGeoJSONData] = useState();
   const [districtPopulationData, setDistrictPopulationData] = useState({});
   const GlobalState = useContext(GlobalContext).state;
 
   useEffect(() => {
-    request({
-      method: "GET",
-      uri:
-        "https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2019/288/global_landslide_nowcast_20191015.geojson"
-    }).then(data => {
-      const parsedData = JSON.parse(data);
-      setGeoJSONData(parsedData);
-    }, console.log);
     request({
       method: "GET",
       uri: "https://dataster-c6fa8.firebaseio.com/Country.json"
@@ -42,8 +34,17 @@ export const DeviceMap = props => {
     <div style={{ width: "inherit", height: "inherit" }}>
       <Map center={props.position} zoom={7}>
         <MapLayers />
-        {GlobalState.isLandslideAreaShown && geoJSONData && (
-          <GeoJSON data={geoJSONData} color="orange" />
+        {GlobalState.isLandslideAreaShown && (
+          <GeoJSONDataOverlay
+            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2019/288/global_landslide_nowcast_20191015.geojson"
+            color="orange"
+          />
+        )}
+        {GlobalState.isWeatherDataShown && (
+          <GeoJSONDataOverlay
+            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/gpm_1d/export/r07/2019/285/gpm_1d.20191012.geojson"
+            color="blue"
+          />
         )}
         {GlobalState.isRiskAreaShown &&
           Object.keys(districtPopulationData).map((districtName, index) => {

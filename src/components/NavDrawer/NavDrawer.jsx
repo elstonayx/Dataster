@@ -1,4 +1,4 @@
-import React,{ useState, useEffect }  from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: drawerWidth
-  },
-
+  }
 }));
 
 const InputButtons = [
@@ -35,20 +34,19 @@ const InputButtons = [
 export const NavDrawer = () => {
   const classes = useStyles();
   const globalState = React.useContext(GlobalContext);
-  const [districtJSONData,setDistrictJSONData] = useState([]);
+  const [districtJSONData, setDistrictJSONData] = useState([]);
 
   useEffect(() => {
     request({
       method: "GET",
-      uri:
-        "https://dataster-c6fa8.firebaseio.com/Country/Messages.json"
+      uri: "https://dataster-c6fa8.firebaseio.com/Country/Messages.json"
     }).then(data => {
-      console.log(data)
+      console.log(data);
       const parsedData = JSON.parse(data);
       setDistrictJSONData(parsedData);
     }, console.log);
     return () => {};
-  });
+  }, []);
   return (
     <Drawer
       className={classes.drawer}
@@ -78,11 +76,11 @@ export const NavDrawer = () => {
 
       <List>
         <h3>Updates</h3>
-        {districtJSONData.map((item)=>{
+        {districtJSONData.map(item => {
           return (
             <ListItem>
-            {item.Description}
-            <strong>{item.Priority}</strong>
+              {item.Description}
+              <strong>{item.Priority}</strong>
             </ListItem>
           );
         })}
