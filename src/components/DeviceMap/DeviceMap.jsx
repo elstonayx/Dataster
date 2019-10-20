@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import request from "request-promise-native";
-import { Map, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
+import { Map, GeoJSON } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
-
-const { BaseLayer } = LayersControl;
-
-const data = {
-  label: ["red", "yellow"],
-  values: [100, 200]
-};
+import { MapLayers } from "../MapLayers/MapLayers";
 
 const getColorRangeBasedOnValue = value => {
   const red = parseInt(255 * value).toString(16);
@@ -45,17 +39,7 @@ export const DeviceMap = props => {
   return (
     <div style={{ width: "inherit", height: "inherit" }}>
       <Map center={props.position} zoom={7}>
-        <LayersControl>
-          <BaseLayer checked name="ERSI Satellite">
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-            />
-          </BaseLayer>
-          <BaseLayer checked name="names">
-            <TileLayer url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png" />
-          </BaseLayer>
-        </LayersControl>
+        <MapLayers />
         {geoJSONData && <GeoJSON data={geoJSONData} color="orange" />}
         {Object.keys(districtPopulationData).map((districtName, index) => {
           const districtData = districtPopulationData[districtName];
