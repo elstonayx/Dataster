@@ -4,13 +4,15 @@ import { Map, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
+import { MissingPeople } from "../MissingPeople/MissingPeople";
 
 const { BaseLayer } = LayersControl;
-
+/*
 const data = {
   label: ["red", "yellow"],
   values: [100, 200]
 };
+*/
 
 const getColorRangeBasedOnValue = value => {
   const red = parseInt(255 * value).toString(16);
@@ -21,6 +23,7 @@ const getColorRangeBasedOnValue = value => {
 export const DeviceMap = props => {
   const [geoJSONData, setGeoJSONData] = useState();
   const [districtPopulationData, setDistrictPopulationData] = useState({});
+  const [missingPeopleData, setMissingPeopleData] = useState({});
 
   useEffect(() => {
     request({
@@ -36,7 +39,9 @@ export const DeviceMap = props => {
       uri: "https://dataster-c6fa8.firebaseio.com/Country.json"
     }).then(data => {
       const parsedData = JSON.parse(data);
+      console.log(parsedData);
       setDistrictPopulationData(parsedData.Districts);
+      setMissingPeopleData(parsedData.MissingPeople);
     });
 
     return () => {};
@@ -80,6 +85,29 @@ export const DeviceMap = props => {
                 label: Object.keys(data),
                 values: Object.values(data)
               }}
+            />
+          );
+        })}
+        {Object.keys(missingPeopleData).map((personName, index) => {
+          const personData = missingPeopleData[personName];
+
+          const data = {
+            Name: personName,
+            Age: personData["Age"],
+            Disabled: personData["Disabled"],
+            Gender: personData["Gender"]
+          };
+
+          console.log(data);
+
+          return (
+            <MissingPeople
+              center={[
+                personData[`Last Seen`].Latitude,
+                personData[`Last Seen`].Longitude
+              ]}
+              key={index}
+              data={data}
             />
           );
         })}
