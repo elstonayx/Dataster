@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import request from "request-promise-native";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -59,7 +59,12 @@ export function SimpleModal(props) {
 
   return (
     <div>
-      <Button type="button" variant = 'contained' color='primary' onClick={handleOpen}>
+      <Button
+        type="button"
+        variant="contained"
+        color="primary"
+        onClick={handleOpen}
+      >
         VIEW
       </Button>
       <Modal
@@ -69,26 +74,21 @@ export function SimpleModal(props) {
         onClose={handleClose}
       >
         <div style={modalStyle} className={classes.paper}>
-<<<<<<< HEAD
-          <h2> Priority: {props.priority}: {props.type} </h2>
-          <p><strong>Location:</strong> {props.location}</p>
-          <p> <strong>Latitude:</strong> {props.latitude} , Longitude: {props.longitude}</p>
+          <h2>
+            {" "}
+            Priority: {props.priority}: {props.type}{" "}
+          </h2>
+          <p>
+            <strong>Location:</strong> {props.location}
+          </p>
+          <p>
+            {" "}
+            <strong>Latitude:</strong> {props.latitude} , Longitude:{" "}
+            {props.longitude}
+          </p>
           <p id="simple-modal-description">
             <strong>Message</strong>: {props.description}
           </p>
-          
-=======
-          <h1>
-            {" "}
-            {props.priority}: {props.type}{" "}
-          </h1>
-          <h2>{props.location}</h2>
-          <h3>
-            {" "}
-            Latitude: {props.latitude} , Longitude: {props.longitude}
-          </h3>
-          <p id="simple-modal-description">{props.description}</p>
->>>>>>> Stop message fetching on component re-render
         </div>
       </Modal>
     </div>

@@ -53,10 +53,20 @@ function App() {
           >
             <ButtonGroup style={{ margin: "0px" }}>
               <Button onClick={handleRiskClick}>Toggle Risk Area</Button>
-              <Button onClick={handleLandslideAreaClick}>
+              <Button
+                onClick={handleLandslideAreaClick}
+                style={{ backgroundColor: "orange" }}
+                color="secondary"
+                variant="contained"
+              >
                 Toggle Landslide Area
               </Button>
-              <Button onClick={handleWeatherAreaClick}>
+              <Button
+                onClick={handleWeatherAreaClick}
+                style={{ backgroundColor: "blue" }}
+                color="secondary"
+                variant="contained"
+              >
                 Toggle Weather Area
               </Button>
               <Button onClick={handleMissingPeopleClick}>

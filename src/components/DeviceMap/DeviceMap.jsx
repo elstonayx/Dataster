@@ -71,7 +71,8 @@ export const DeviceMap = props => {
                   districtData["Vulerability Score"]
                 )}
                 key={index}
-                data={{
+                locationName={districtName}
+                populationData={{
                   label: Object.keys(data),
                   values: Object.values(data)
                 }}
@@ -103,6 +104,10 @@ export const DeviceMap = props => {
             );
           })}
         })}
+        <GeoJSONDataOverlay
+          uri="https://raw.githubusercontent.com/mesaugat/geoJSON-Nepal/master/nepal-districts-new.geojson"
+          color="gray"
+        />
       </Map>
     </div>
   );

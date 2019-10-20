@@ -22,6 +22,7 @@ const pieColorStyles = {
 };
 
 export const RiskInfoCard = ({
+  locationName,
   populationData,
   genderData,
   vulnerabilityScore
@@ -31,6 +32,7 @@ export const RiskInfoCard = ({
       <div
         style={{ width: "300px", textAlign: "center", paddingBottom: "20px" }}
       >
+        <h1>{locationName}</h1>
         <h3>Vulnerability Score</h3>
         <h1>{Number(vulnerabilityScore * 100).toFixed(2)}%</h1>
         <h3>Population Data</h3>
