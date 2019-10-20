@@ -41,7 +41,7 @@ export const DeviceMap = props => {
         <MapLayers />
         {GlobalState.isLandslideAreaShown && (
           <GeoJSONDataOverlay
-            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2019/288/global_landslide_nowcast_20191015.geojson"
+            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/global_landslide_nowcast/export/Global/2019/293/global_landslide_nowcast_20191020.geojson"
             color="orange"
           />
         )}
