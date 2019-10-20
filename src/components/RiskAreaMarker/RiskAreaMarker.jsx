@@ -8,7 +8,7 @@ export const RiskAreaMarker = ({ center, radius, color, ...otherProps }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = () => {
-    setAnchorEl(document.getElementsByTagName("main"));
+    setAnchorEl(document.getElementsByTagName("body")[0]);
   };
 
   const handleClose = () => {
