@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import request from "request-promise-native";
-import { Map, TileLayer, LayersControl, GeoJSON } from "react-leaflet";
+import { Map } from "react-leaflet";
 import PropTypes from "prop-types";
 
 import { RiskAreaMarker } from "../RiskAreaMarker/RiskAreaMarker";
 import { MissingPeople } from "../MissingPeople/MissingPeople";
+import { MapLayers } from "./MapLayers/MapLayers";
+import GlobalContext from "../../GlobalContext";
+import { GeoJSONDataOverlay } from "./Overlays/GeoDataOverlay/GeoDataOverlay";
 
+  
 const { BaseLayer } = LayersControl;
-/*
-const data = {
-  label: ["red", "yellow"],
-  values: [100, 200]
-};
-*/
-
 const getColorRangeBasedOnValue = value => {
   const red = parseInt(255 * value).toString(16);
   const green = parseInt(255 * (1 - value)).toString(16);
@@ -21,19 +18,12 @@ const getColorRangeBasedOnValue = value => {
 };
 
 export const DeviceMap = props => {
-  const [geoJSONData, setGeoJSONData] = useState();
   const [districtPopulationData, setDistrictPopulationData] = useState({});
   const [missingPeopleData, setMissingPeopleData] = useState({});
 
+  const GlobalState = useContext(GlobalContext).state;
+  
   useEffect(() => {
-    request({
-      method: "GET",
-      uri:
-        "https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2019/288/global_landslide_nowcast_20191015.geojson"
-    }).then(data => {
-      const parsedData = JSON.parse(data);
-      setGeoJSONData(parsedData);
-    }, console.log);
     request({
       method: "GET",
       uri: "https://dataster-c6fa8.firebaseio.com/Country.json"
@@ -50,28 +40,30 @@ export const DeviceMap = props => {
   return (
     <div style={{ width: "inherit", height: "inherit" }}>
       <Map center={props.position} zoom={7}>
-        <LayersControl>
-          <BaseLayer checked name="ERSI Satellite">
-            <TileLayer
-              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-              attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-            />
-          </BaseLayer>
-          <BaseLayer checked name="names">
-            <TileLayer url="https://{s}.basemaps.cartocdn.com/light_only_labels/{z}/{x}/{y}{r}.png" />
-          </BaseLayer>
-        </LayersControl>
-        {geoJSONData && <GeoJSON data={geoJSONData} color="orange" />}
-        {Object.keys(districtPopulationData).map((districtName, index) => {
-          const districtData = districtPopulationData[districtName];
+        <MapLayers />
+        {GlobalState.isLandslideAreaShown && (
+          <GeoJSONDataOverlay
+            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/s3/Global/global_landslide_nowcast/2019/288/global_landslide_nowcast_20191015.geojson"
+            color="orange"
+          />
+        )}
+        {GlobalState.isWeatherDataShown && (
+          <GeoJSONDataOverlay
+            uri="https://pmmpublisher.pps.eosdis.nasa.gov/products/gpm_1d/export/r07/2019/285/gpm_1d.20191012.geojson"
+            color="blue"
+          />
+        )}
+        {GlobalState.isRiskAreaShown &&
+          Object.keys(districtPopulationData).map((districtName, index) => {
+            const districtData = districtPopulationData[districtName];
 
-          const data = {
-            Youth: districtData["%youth"] * districtData.population,
-            "Middle-aged":
-              (100 - districtData["%youth"] - districtData["%elderly"]) *
-              districtData.population,
-            Elderly: districtData["%elderly"] * districtData.population
-          };
+            const data = {
+              Youth: districtData["%youth"] * districtData.population,
+              "Middle-aged":
+                (100 - districtData["%youth"] - districtData["%elderly"]) *
+                districtData.population,
+              Elderly: districtData["%elderly"] * districtData.population
+            };
 
           return (
             <RiskAreaMarker
@@ -111,6 +103,26 @@ export const DeviceMap = props => {
             />
           );
         })}
+           return (
+              <RiskAreaMarker
+                center={[districtData.Latitude, districtData.Longitude]}
+                radius={districtData["area km^2"] * 20}
+                color={getColorRangeBasedOnValue(
+                  districtData["Vulerability Score"]
+                )}
+                key={index}
+                populationData={{
+                  label: Object.keys(data),
+                  values: Object.values(data)
+                }}
+                genderData={{
+                  label: ["Male", "Female"],
+                  values: [districtData["%male"], districtData["%female"]]
+                }}
+                vulnerabilityScore={districtData["Vulerability Score"]}
+              />
+            );
+          })}
       </Map>
     </div>
   );

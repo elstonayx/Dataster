@@ -4,7 +4,7 @@ import { Circle } from "react-leaflet";
 import { Popover } from "@material-ui/core";
 import { RiskInfoCard } from "../RiskInfoCard/RiskInfoCard";
 
-export const RiskAreaMarker = props => {
+export const RiskAreaMarker = ({ center, radius, color, ...otherProps }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = () => {
@@ -18,10 +18,10 @@ export const RiskAreaMarker = props => {
   return (
     <>
       <Circle
-        center={props.center}
-        radius={props.radius}
+        center={center}
+        radius={radius}
         onClick={handleClick}
-        color={props.color}
+        color={color}
         fillOpacity={0.8}
       />
       <Popover
@@ -34,7 +34,7 @@ export const RiskAreaMarker = props => {
         }}
         onClose={handleClose}
       >
-        <RiskInfoCard data={props.data} />
+        <RiskInfoCard {...otherProps} />
       </Popover>
     </>
   );
