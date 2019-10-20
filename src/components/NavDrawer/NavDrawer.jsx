@@ -111,7 +111,7 @@ export const NavDrawer = () => {
       <Divider />
 
       <List>
-        <h3>Updates</h3>
+        <h3>Messages</h3>
 
         <Divider/>
         {districtJSONData.map((item) => {
