@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "@material-ui/icons": "^4.5.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "leaflet": "^1.5.1",
     "material-ui-popup-state": "^1.4.1",
     "react": "^16.10.2",
